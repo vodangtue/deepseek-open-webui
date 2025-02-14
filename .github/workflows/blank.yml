@@ -11,17 +11,20 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Deploy directly using pre-built Open WebUI image
-      - name: 'Deploy Open WebUI to ACI'
+      # Deploy Open WebUI to Azure Container Instances
+      - name: 'Deploy to Azure Container Instances'
         uses: azure/aci-deploy@v1
         with:
-          resource-group: <your-resource-group>  # Replace with your Azure RG
-          location: eastus  # Valid region (e.g., eastus, westus)
+          resource-group: Deepseek  # Replace with your Azure resource group name
           dns-name-label: open-webui  # Public URL will be open-webui-<region>.azurecontainer.io
           image: ghcr.io/open-webui/open-webui:main  # Official pre-built image
-          ports: 8080  # Open WebUI uses port 8080 by default
           cpu: 1  # Minimum recommended CPU
           memory: 1.5  # Minimum recommended memory (GB)
+          registry-username: ${{ secrets.REGISTRY_USERNAME }}  # Required if using private ACR
+          registry-password: ${{ secrets.REGISTRY_PASSWORD }}  # Required if using private ACR
+          name: open-webui-container  # Name of the container instance
+          location: eastus  # Valid Azure region (e.g., eastus, westus)
+          ports: 8080  # Open WebUI uses port 8080 by default
           environment-variables: |
             OPENAI_API_BASE=https://deepseek5665933694.services.ai.azure.com/models
             OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
