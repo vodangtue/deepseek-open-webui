@@ -1,25 +1,27 @@
-# .github/workflows/azure-deploy.yml
-name: Deploy Open WebUI to Azure
-
-on:
-  push:
-    branches: [main]
+name: Deploy_Open_WebUI_To_ACI
+on: [push]
 
 jobs:
-  deploy:
+  deploy-open-webui:
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/login@v2
+      # Authenticate with Azure
+      - name: 'Azure Login'
+        uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Deploy to Azure Container Instances
+
+      # Deploy directly using pre-built Open WebUI image
+      - name: 'Deploy Open WebUI to ACI'
         uses: azure/aci-deploy@v1
         with:
-          resource-group: Deepseek
-          dns-name-label: open-webui
-          location: eastus
-          image: ghcr.io/open-webui/open-webui:main
-          ports: 3000
+          resource-group: <your-resource-group>  # Replace with your Azure RG
+          location: eastus  # Valid region (e.g., eastus, westus)
+          dns-name-label: open-webui  # Public URL will be open-webui-<region>.azurecontainer.io
+          image: ghcr.io/open-webui/open-webui:main  # Official pre-built image
+          ports: 8080  # Open WebUI uses port 8080 by default
+          cpu: 1  # Minimum recommended CPU
+          memory: 1.5  # Minimum recommended memory (GB)
           environment-variables: |
             OPENAI_API_BASE=https://deepseek5665933694.services.ai.azure.com/models
             OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
