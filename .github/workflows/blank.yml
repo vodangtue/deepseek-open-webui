@@ -20,8 +20,8 @@ jobs:
           image: ghcr.io/open-webui/open-webui:main  # Official pre-built image
           cpu: 1  # Minimum recommended CPU
           memory: 1.5  # Minimum recommended memory (GB)
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}  # Required if using private ACR
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}  # Required if using private ACR
+          # registry-username: ${{ secrets.REGISTRY_USERNAME }}  # Required if using private ACR
+          # registry-password: ${{ secrets.REGISTRY_PASSWORD }}  # Required if using private ACR
           name: open-webui-container  # Name of the container instance
           location: eastus  # Valid Azure region (e.g., eastus, westus)
           ports: 8080  # Open WebUI uses port 8080 by default
