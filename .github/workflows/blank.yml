@@ -17,6 +17,7 @@ jobs:
         with:
           resource-group: Deepseek
           dns-name-label: open-webui
+          location: eastus
           image: ghcr.io/open-webui/open-webui:main
           ports: 3000
           environment-variables: |
