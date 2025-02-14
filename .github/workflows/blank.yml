@@ -1,0 +1,22 @@
+# .github/workflows/azure-deploy.yml
+name: Deploy Open WebUI to Azure
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Azure Container Instances
+        uses: azure/aci-deploy@v1
+        with:
+          resource-group: Deepseek
+          dns-name-label: open-webui
+          image: ghcr.io/open-webui/open-webui:main
+          ports: 3000
+          environment-variables: |
+            OPENAI_API_BASE=https://deepseek5665933694.services.ai.azure.com/models
+            OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
+            DEFAULT_MODEL=deepseek-r1
